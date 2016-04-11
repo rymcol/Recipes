@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -14,6 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     
     var recipes = [Recipe]()
+    var fetchedResultsController: NSFetchedResultsController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
+    }
+    
+    func fetchAndSetResults() {
+        let app = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedObjectContext = app.managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "Recipe")
+        
+        do {
+            let results = try managedObjectContext.executeFetchRequest(fetchRequest)
+            self.recipes = results as! [Recipe]
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+        
     }
 
 }
