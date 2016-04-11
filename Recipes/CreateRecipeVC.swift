@@ -53,6 +53,7 @@ class CreateRecipeVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             do {
                 try context.save()
+                print("saved")
             } catch {
                 print("Could not save recipe")
             }
